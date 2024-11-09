@@ -1,0 +1,31 @@
+# Ignore personal or system folders
+**/Downloads/
+**/Documents/
+**/Desktop/
+**/AppData/
+**/OneDrive/
+**/Saved Games/
+**/Recent/
+**/Music/
+**/Pictures/
+**/Videos/
+
+# Ignore personal files (bash history, git configuration, etc.)
+*.bash_history
+*.gitconfig
+*.vscode/
+*.ssh/
+*.lesshst
+*.node_repl_history
+*.viminfo
+
+# Ignore Windows system files
+**/NTUSER.DAT*
+**/*.log
+
+# Ignore IDE-specific files (VSCode, JetBrains, etc.)
+.vscode/
+.idea/
+
+# Ignore other common folders that are not needed in a Git repo
+**/node_modules/
