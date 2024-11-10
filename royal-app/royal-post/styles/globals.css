@@ -19,7 +19,7 @@ h2 {
 }
 
 .name {
-  color: #988349;
+  color: #a79152;
   margin-top: 100px;
   text-align: center;
 }
@@ -65,4 +65,25 @@ nav a {
   color: rgb(165, 100, 100);
   text-decoration: none;
   margin-right: 10px;
+} 
+
+
+.like-button {
+  margin-right: 8px;
+}
+
+.blink {
+  animation: blink-animation 2s ease-in-out infinite;
+}
+
+@keyframes blink-animation {
+  0% {
+    color: rgb(40, 209, 136);
+  }
+  50% {
+    color: crimson;
+  }
+  100% {
+    color: darkgoldenrod;
+  }
 }

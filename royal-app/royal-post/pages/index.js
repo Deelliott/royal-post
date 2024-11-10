@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 
-
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
@@ -9,6 +8,7 @@ export default function Home() {
   useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isBlinking, setIsBlinking] = useState({});
 
 
 useEffect(() => {
@@ -31,6 +31,7 @@ useEffect(() => {
   fetchPosts();
 }, []);
 
+
 const handleLikePost = async (id) => {
   try {
     const response = await fetch(`/api/posts/?id=${id}`, {
@@ -41,6 +42,18 @@ const handleLikePost = async (id) => {
       const updatedPost = await response.json();
 
       setPosts(posts.map(post => post.id === id ? updatedPost : post));
+
+      setIsBlinking(prevState => ({
+        ...prevState,
+        [id]: true,
+      }));
+
+      setTimeout(() => {
+        setIsBlinking(prevState => ({
+          ...prevState,
+          [id]: false,
+        }));
+      }, 3000);
     } else {
       setError('Error liking post');
   }
@@ -133,8 +146,9 @@ return (
           <li key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.content}</p>
-            <p>Likes: {post.likes || 0}</p>
-            <button onClick={() => handleLikePost(post.id)}>Like</button>
+            <p className={isBlinking[post.id] ? 'blink' : ''} onClick={() => handleLikePost(post.id)}><strong>Likes: {post.likes || 0}</strong></p>
+            <button className="like-button" onClick={() => handleLikePost(post.id)}>Like</button>
+
             <button onClick={() => handleDeletePost(post.id)}>Delete</button>
           </li>
         ))
@@ -142,7 +156,7 @@ return (
         <p>No posts available.</p>
       )}
       </ul>
-      <footer><h3 class="name">By Devon Elliott</h3></footer>
+      <footer><h3 className="name">By Devon Elliott</h3></footer>
   </div>
   
 );
