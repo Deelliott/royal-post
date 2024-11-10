@@ -31,6 +31,25 @@ useEffect(() => {
   fetchPosts();
 }, []);
 
+const handleLikePost = async (id) => {
+  try {
+    const response = await fetch(`/api/posts/?id=${id}`, {
+      method: 'PATCH',
+    });
+
+    if (response.ok) {
+      const updatedPost = await response.json();
+
+      setPosts(posts.map(post => post.id === id ? updatedPost : post));
+    } else {
+      setError('Error liking post');
+  }
+}  catch (err) {
+  setError('Error liking post');
+}
+
+};
+
 const handleCreatePost = async (e) => {
   e.preventDefault();
 
@@ -93,7 +112,7 @@ const handleDeletePost = async (id) => {
 
 return (
   <div>
-    <h1>Royal Post</h1>
+    <h1>Royal Post 🏰</h1>
     {error && <p style={{ color: 'red' }}>{error}</p>}
     <form onSubmit={handleCreatePost}>
       <div>
@@ -114,6 +133,8 @@ return (
           <li key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.content}</p>
+            <p>Likes: {post.likes || 0}</p>
+            <button onClick={() => handleLikePost(post.id)}>Like</button>
             <button onClick={() => handleDeletePost(post.id)}>Delete</button>
           </li>
         ))
@@ -121,6 +142,8 @@ return (
         <p>No posts available.</p>
       )}
       </ul>
+      <footer><h3 class="name">By Devon Elliott</h3></footer>
   </div>
+  
 );
 }
